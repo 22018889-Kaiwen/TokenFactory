@@ -14,7 +14,11 @@ contract Token {
     address public factory;
 
     event Transfer(address indexed from, address indexed to, uint tokens);
-    event Approval(address indexed tokenOwner, address indexed spender, uint tokens);
+    event Approval(
+        address indexed tokenOwner,
+        address indexed spender,
+        uint tokens
+    );
     event Mint(address indexed to, uint tokens);
     event Burn(address indexed from, uint tokens);
 
@@ -24,7 +28,10 @@ contract Token {
     }
 
     modifier onlyFactory() {
-        require(msg.sender == factory, "Only the factory can call this function");
+        require(
+            msg.sender == factory,
+            "Only the factory can call this function"
+        );
         _;
     }
 
@@ -59,13 +66,20 @@ contract Token {
         return true;
     }
 
-    function approve(address spender, uint tokens) public returns (bool success) {
+    function approve(
+        address spender,
+        uint tokens
+    ) public returns (bool success) {
         allowed[msg.sender][spender] = tokens;
         emit Approval(msg.sender, spender, tokens);
         return true;
     }
 
-    function transferFrom(address from, address to, uint tokens) public returns (bool success) {
+    function transferFrom(
+        address from,
+        address to,
+        uint tokens
+    ) public returns (bool success) {
         require(from != address(0), "Cannot transfer from the zero address");
         require(to != address(0), "Cannot transfer to the zero address");
         require(tokens <= balances[from], "Insufficient balance");
@@ -77,11 +91,17 @@ contract Token {
         return true;
     }
 
-    function allowance(address tokenOwner, address spender) public view returns (uint remaining) {
+    function allowance(
+        address tokenOwner,
+        address spender
+    ) public view returns (uint remaining) {
         return allowed[tokenOwner][spender];
     }
 
-    function mint(address to, uint tokens) public onlyFactory returns (bool success) {
+    function mint(
+        address to,
+        uint tokens
+    ) public onlyOwner returns (bool success) {
         totalSupply += tokens;
         balances[to] += tokens;
         emit Mint(to, tokens);
@@ -89,7 +109,7 @@ contract Token {
         return true;
     }
 
-    function burn(uint tokens) public onlyFactory returns (bool success) {
+    function burn(uint tokens) public onlyOwner returns (bool success) {
         require(balances[msg.sender] >= tokens, "Insufficient balance");
         totalSupply -= tokens;
         balances[msg.sender] -= tokens;
