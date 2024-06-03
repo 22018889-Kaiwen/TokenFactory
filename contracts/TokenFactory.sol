@@ -4,27 +4,17 @@ pragma solidity ^0.8.26;
 import "./Token.sol";
 
 contract TokenFactory {
-    event TokenCreated(
-        address indexed tokenAddress,
-        string name,
-        string symbol
-    );
+    event TokenDeployed(address indexed tokenAddress, address indexed owner);
 
     function createToken(
-        string memory _name,
-        string memory _symbol,
-        uint8 _decimals,
-        uint256 _initialSupply
-    ) external returns (address) {
-        Token newToken = new Token(
-            _name,
-            _symbol,
-            _decimals,
-            _initialSupply,
-            msg.sender,
-            address(this)
+        string memory name,
+        string memory symbol,
+        uint8 decimals,
+        uint256 initialSupply
+    ) external {
+        address tokenAddress = address(
+            new Token(name, symbol, decimals, initialSupply, msg.sender)
         );
-        emit TokenCreated(address(newToken), _name, _symbol);
-        return address(newToken);
+        emit TokenDeployed(tokenAddress, msg.sender);
     }
 }
