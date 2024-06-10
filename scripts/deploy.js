@@ -7,7 +7,7 @@ async function main() {
 
   const TokenFactory = await ethers.getContractFactory("TokenFactory");
   const tokenFactory = await TokenFactory.deploy();
-  await tokenFactory.waitForDeployment();
+  await tokenFactory.deployed();
 
   console.log(
     "TokenFactory contract is deployed at address:",
