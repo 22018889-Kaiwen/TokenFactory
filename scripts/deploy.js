@@ -5,45 +5,14 @@ async function main() {
 
   console.log("Deploying contracts with the account:", deployer.address);
 
-  //Deploying Factory contract
-  const Factory = await ethers.getContractFactory("Factory");
-  await Factory.deploy();
-
-  console.log("Factory contract is being deployed...");
-
-  console.log("Factory deployed");
-
-
-  //Deploying Token contract
-  const Token = await ethers.getContractFactory("Token");
-
-  const tokenName = "CATCOIN";
-  const tokenSymbol = "CAT";
-  const tokenDecimals = 18;
-  const tokenTotalSupply = ethers.parseUnits("100", tokenDecimals);
-  const ownerAddress = deployer.address;
-  const factoryAddress = deployer.address;
+  const TokenFactory = await ethers.getContractFactory("TokenFactory");
+  const tokenFactory = await TokenFactory.deploy();
+  await tokenFactory.waitForDeployment();
 
   console.log(
-    "Deploying with parameters:",
-    tokenName,
-    tokenSymbol,
-    tokenDecimals,
-    tokenTotalSupply.toString(),
-    ownerAddress,
-    factoryAddress
+    "TokenFactory contract is deployed at address:",
+    tokenFactory.address
   );
-
-  await Token.deploy(
-    tokenName,
-    tokenSymbol,
-    tokenDecimals,
-    tokenTotalSupply,
-    ownerAddress,
-    factoryAddress
-  );
-
-  console.log("Contract deployed");
 }
 
 main()
