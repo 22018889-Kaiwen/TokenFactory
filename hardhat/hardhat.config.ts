@@ -10,9 +10,7 @@ const INFURA_API_KEY = vars.get("INFURA_API_KEY");
 const FIREBLOCKS_API_KEY = vars.get("FIREBLOCKS_API_KEY");
 const MNEMONIC = vars.get("MNEMONIC");
 const apiSecret = fs.readFileSync(
-  path.resolve(
-    "/home/kai/dev/Tokenfactory/hardhat-project/fireblocks_secret.key"
-  ),
+  path.resolve(vars.get("FIREBLOCKS_SECRET_PATH")),
   "utf8"
 );
 
